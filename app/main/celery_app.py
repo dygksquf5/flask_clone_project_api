@@ -4,7 +4,7 @@ from celery import Celery
 
 
 class CeleryConfig:
-    CELERY_IMPORTS = ('proj.tasks')
+    CELERY_IMPORTS = ('app.main.tasks')
     CELERY_TASK_RESULT_EXPIRES = 30
 
     CELERY_ACCEPT_CONTENT = ['json', 'msgpack', 'yaml']
@@ -15,7 +15,7 @@ class CeleryConfig:
 
     CELERYBEAT_SCHEDULE = {
         "time_scheduler": {
-            "task": "proj.tasks.what",
+            "task": "app.main.tasks.what",
             "schedule": 60.0
 
         }
@@ -45,6 +45,6 @@ def make_celery(app):
     return celery
 
 
-app = create_app('dev', register_blueprints=False)
+app = create_app( register_blueprints=False, config_name='dev')
 celery = make_celery(app)
 
